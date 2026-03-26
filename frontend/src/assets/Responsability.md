@@ -1,0 +1,2 @@
+
+## imágenes, iconos, etc.
