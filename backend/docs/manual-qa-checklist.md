@@ -6,20 +6,18 @@ Validar que los endpoints del MVP funcionen correctamente antes de integrar el f
 
 ## Entorno
 
-- Base URL local: `http://localhost/GymBro/backend/public/api`
+- Base URL local: `http://localhost:8080/GymBro/backend/public/api`
 
-- Herramienta de prueba: Postman / Thunder Client / navegador
-
-- Base de datos cargada con datos semilla: Sí / No
+- Herramienta de prueba: Postman
 
 ---
 
 ## Estado inicial
 
-- [ ] Conexión a base de datos funcionando
-- [ ] Tabla `muscle_groups` con datos
-- [ ] Tabla `exercises` con datos
-- [ ] FK `exercises.muscle_group_id -> muscle_groups.id` activa
+- [✅] Conexión a base de datos funcionando
+- [] Tabla `muscle_groups` con datos
+- [] Tabla `exercises` con datos
+- [] FK `exercises.muscle_group_id -> muscle_groups.id` activa
 ---
 
 ## Casos de prueba - `GET /muscle-groups`
