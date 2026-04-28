@@ -1,5 +1,10 @@
 <?php
 
+// CORS: el frontend en desarrollo (p. ej. Vite :5173) llama al API en otro origen (:8080).
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: GET, OPTIONS');
+header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
 // Cargamos archivos de rutas y helpers.
 require_once __DIR__ . '/src/routes/MuscleGroupRoutes.php';
 require_once __DIR__ . '/src/routes/ExerciseRoutes.php';
@@ -7,6 +12,12 @@ require_once __DIR__ . '/src/utils/response.php';
 
 // Leemos el metodo HTTP de la request
 $method = $_SERVER['REQUEST_METHOD'] ?? 'GET';
+
+// Preflight CORS sin body JSON
+if ($method === 'OPTIONS') {
+    http_response_code(204);
+    exit;
+}
 // Leemos la URI completa solicitada por el cliente.
 $requestUri = $_SERVER['REQUEST_URI'] ?? '/';
 // Nos quedamos solo con la parte del path, sin query params.

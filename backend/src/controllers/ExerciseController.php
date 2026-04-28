@@ -3,24 +3,22 @@
 require_once __DIR__ . '/../models/ExerciseModel.php';
 require_once __DIR__ . '/../utils/response.php';
 
-/**
- * Controller del endpoint GET /exercises.
- * Los filtros llegan como query params en la URL (?search=...&muscle_group_id=...&limit=...).
- * PHP los expone automaticamente en el array superglobal $_GET.
- */
 function list_exercises(): void
 {
-    // Capturamos cualquier fallo inesperado y respondemos 500 generico (sin filtrar detalles).
     try {
         // --- Parametro opcional: search (texto libre en el nombre del ejercicio) ---
 
-        // Valor por defecto: no filtrar por nombre.
         $search = null;
-        // isset: solo intentamos leer si el cliente mando la clave en la query string.
         if (isset($_GET['search'])) {
-            // Cast a string y trim: quitamos espacios al inicio y al final.
-            $trimmed = trim((string) $_GET['search']);
-            // Si despues de limpiar queda algo, ese es el filtro; si no, queda null (sin filtro).
+            $rawSearch = $_GET['search'];
+            if (!is_string($rawSearch)) {
+                json_response([
+                    'error' => 'VALIDATION_ERROR',
+                    'message' => 'search must be a single value.',
+                ], 400);
+                return;
+            }
+            $trimmed = trim($rawSearch);
             if ($trimmed !== '') {
                 $search = $trimmed;
             }
@@ -28,14 +26,19 @@ function list_exercises(): void
 
         // --- Parametro opcional: muscle_group_id (entero positivo) ---
 
-        // null = el cliente no pidio filtrar por grupo.
         $muscleGroupId = null;
-        // array_key_exists distingue "no enviado" de "enviado vacio" (util para validar).
-        if (array_key_exists('muscle_group_id', $_GET)) {
-            // Valor crudo tal cual llega por URL (siempre string en $_GET).
+        if (isset($_GET['muscle_group_id'])) {
+            // En PHP un mismo nombre puede repetirse en la query y llegar como array; el MVP solo acepta string.
             $rawGroup = $_GET['muscle_group_id'];
-            // Regla MVP: debe ser entero positivo; usamos ctype_digit (solo digitos 0-9, sin signo).
-            if ($rawGroup === '' || !ctype_digit((string) $rawGroup) || (int) $rawGroup < 1) {
+            if (!is_string($rawGroup)) {
+                json_response([
+                    'error' => 'VALIDATION_ERROR',
+                    'message' => 'muscle_group_id must be a single value.',
+                ], 400);
+                return;
+            }
+            // Regla MVP: debe ser entero positivo; ctype_digit (solo digitos 0-9, sin signo).
+            if ($rawGroup === '' || !ctype_digit($rawGroup) || (int) $rawGroup < 1) {
                 // Respuesta 400 segun contrato: parametro de filtro invalido.
                 json_response([
                     // Codigo de error acordado para validacion.
@@ -55,10 +58,15 @@ function list_exercises(): void
         $limit = 50;
         // Si el cliente envio limit, validamos formato y rango.
         if (isset($_GET['limit'])) {
-            // Valor crudo de la query string.
             $rawLimit = $_GET['limit'];
-            // Misma idea: entero positivo solo con digitos.
-            if ($rawLimit === '' || !ctype_digit((string) $rawLimit) || (int) $rawLimit < 1) {
+            if (!is_string($rawLimit)) {
+                json_response([
+                    'error' => 'VALIDATION_ERROR',
+                    'message' => 'limit must be a single value.',
+                ], 400);
+                return;
+            }
+            if ($rawLimit === '' || !ctype_digit($rawLimit) || (int) $rawLimit < 1) {
                 json_response([
                     // Misma familia de error que muscle_group_id.
                     'error' => 'VALIDATION_ERROR',
@@ -67,8 +75,8 @@ function list_exercises(): void
                 ], 400);
                 return;
             }
-            // Convertimos y acotamos para no traer millones de filas por accidente.
-            $limit = (int) $rawLimit;
+            // Convertimos y acotamos (contrato MVP: max 100).
+            $limit = min(100, max(1, (int) $rawLimit));
         }
 
         // Llamada al modelo: aplica filtros en SQL (AND si vienen ambos).
@@ -85,11 +93,11 @@ function list_exercises(): void
             ],
         ], 200);
     } catch (Throwable $e) {
-        
+        // En produccion no exponemos $e->getMessage() al cliente.
         json_response([
-            // Codigo interno para errores de servidor.
             'error' => 'INTERNAL_ERROR',
             'message' => 'Unexpected server error.',
         ], 500);
     }
 }
+

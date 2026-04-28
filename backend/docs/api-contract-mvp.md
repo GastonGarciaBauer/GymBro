@@ -4,7 +4,7 @@
 Permitir búsqueda y filtrado de ejercicios en una sola pantalla.
 
 ## Base URL
-`/api`
+`http://localhost:8080/GymBro/backend/index.php`
 
 ---
 

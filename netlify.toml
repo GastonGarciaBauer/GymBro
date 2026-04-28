@@ -1,0 +1,13 @@
+# Sitio SPA (React + Vite). Instala dependencias del frontend y construye desde la raíz del repo.
+[build]
+  command = "npm install --prefix frontend && npm run build"
+  publish = "frontend/dist"
+
+# Catálogo embebido (sin PHP/MySQL) en el deploy de Netlify. Para desarrollo local con XAMPP, no definas esto o usá VITE_STATIC_CATALOG=false.
+[build.environment]
+  VITE_STATIC_CATALOG = "true"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200

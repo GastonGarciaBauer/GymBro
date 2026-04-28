@@ -1,0 +1,318 @@
+.wrap {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  height: 100%;
+  flex-direction: column;
+}
+
+.glow {
+  position: absolute;
+  inset: -0.25rem;
+  border-radius: 0.125rem;
+  background: #0095ff;
+  opacity: 0;
+  filter: blur(24px);
+  transition: opacity 500ms ease;
+}
+
+.wrap:hover .glow {
+  opacity: 0.2;
+}
+
+.inner {
+  position: relative;
+  display: flex;
+  height: 100%;
+  min-height: 28rem;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 0.125rem;
+  border: 2px solid rgba(0, 149, 255, 0.6);
+  background: linear-gradient(to bottom right, #030712, #000);
+  box-shadow: 0 0 15px rgba(0, 149, 255, 0.15);
+  transition: border-color 300ms ease, box-shadow 300ms ease;
+}
+
+.wrap:hover .inner {
+  border-color: #0095ff;
+  box-shadow: 0 0 30px rgba(0, 149, 255, 0.25);
+}
+
+.patternSvg {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.1;
+}
+
+.media {
+  position: relative;
+  height: 12rem;
+  width: 100%;
+  flex-shrink: 0;
+  overflow: hidden;
+  /* Misma familia de tonos que la card: si scale < 1 deja un borde, se funde */
+  background: linear-gradient(to bottom, #030712, #000510);
+}
+
+.mediaImg {
+  height: 100%;
+  width: 100%;
+  transform: translateZ(0) scale(0.91);
+  transform-origin: center center;
+  object-fit: cover;
+  /* Ligero énfasis vertical típico en figuras / ejercicios */
+  object-position: center 42%;
+  filter: brightness(0.9);
+  transition: transform 700ms ease, filter 300ms ease;
+}
+
+.wrap:hover .mediaImg {
+  transform: translateZ(0) scale(0.97);
+  filter: brightness(1);
+}
+
+.mediaOverlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.3), #000);
+}
+
+.cornerTl {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  height: 2rem;
+  width: 2rem;
+  border-top: 2px solid #0095ff;
+  border-left: 2px solid #0095ff;
+  transition: width 300ms ease, height 300ms ease;
+}
+
+.wrap:hover .cornerTl {
+  height: 3rem;
+  width: 3rem;
+}
+
+.cornerTr {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  height: 2rem;
+  width: 2rem;
+  border-top: 2px solid #00d4ff;
+  border-right: 2px solid #00d4ff;
+  transition: width 300ms ease, height 300ms ease;
+}
+
+.wrap:hover .cornerTr {
+  height: 3rem;
+  width: 3rem;
+}
+
+/* Chip de grupo muscular: en zona de texto (debajo de la foto), estilo “etiqueta → título” */
+.metaRow {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 1.5rem;
+  margin-bottom: 0.625rem;
+}
+
+.badgeWrap {
+  position: relative;
+  display: inline-flex;
+  z-index: 1;
+  flex-shrink: 0;
+}
+
+.badgeGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: #0095ff;
+  opacity: 0.5;
+  filter: blur(4px);
+}
+
+.badge {
+  position: relative;
+  display: inline-block;
+  border-radius: 9999px;
+  border: 2px solid rgba(0, 149, 255, 0.75);
+  background: rgba(3, 7, 18, 0.92);
+  padding: 0.3125rem 0.875rem;
+  font-size: 0.6875rem;
+  line-height: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #00d4ff;
+  backdrop-filter: blur(6px);
+}
+
+.body {
+  position: relative;
+  display: flex;
+  min-height: 0;
+  flex: 1;
+  flex-direction: column;
+  padding: 1.25rem;
+  padding-top: 1.125rem;
+}
+
+.connectorTop {
+  position: absolute;
+  top: 3.125rem;
+  left: 2rem;
+  height: 0.75rem;
+  width: 1px;
+  background: #0095ff;
+}
+
+.connectorDot {
+  position: absolute;
+  top: 3.75rem;
+  left: 2rem;
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 9999px;
+  background: #0095ff;
+  box-shadow: 0 0 8px #0095ff;
+}
+
+.title {
+  margin-bottom: 0.75rem;
+  min-height: 3.25rem;
+  padding-left: 1.5rem;
+  font-size: 1.25rem;
+  line-height: 1.375;
+  font-weight: 700;
+  letter-spacing: 0.025em;
+  color: #00d4ff;
+  text-shadow: 0 0 15px rgba(0, 212, 255, 0.5);
+  transition: color 300ms ease, text-shadow 300ms ease;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+.wrap:hover .title {
+  color: #0095ff;
+  text-shadow: 0 0 15px rgba(0, 149, 255, 0.5);
+}
+
+.descBlock {
+  position: relative;
+  display: flex;
+  min-height: 6.5rem;
+  flex: 1;
+  flex-direction: column;
+  padding-left: 1.5rem;
+}
+
+.descLine {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  top: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, #0095ff, #00d4ff, transparent);
+}
+
+.descLineDot {
+  position: absolute;
+  left: 0;
+  top: 0.5rem;
+  height: 0.5rem;
+  width: 0.5rem;
+  border-radius: 9999px;
+  border: 1px solid #00d4ff;
+  background: #000;
+}
+
+.desc {
+  font-size: 0.875rem;
+  line-height: 1.625;
+  color: #9ca3af;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+}
+
+.footer {
+  margin-top: auto;
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 1.25rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  color: rgba(0, 149, 255, 0.7);
+}
+
+.footerActive {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.activeDot {
+  height: 0.375rem;
+  width: 0.375rem;
+  border-radius: 9999px;
+  background: #0095ff;
+}
+
+.wrap:hover .activeDot {
+  animation: exerciseCardPulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.footerLine {
+  height: 1px;
+  flex: 1;
+  background: linear-gradient(to right, #0095ff, transparent);
+}
+
+.footerId {
+  opacity: 0.5;
+}
+
+.cornerBl {
+  position: absolute;
+  bottom: 0.75rem;
+  left: 0.75rem;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-bottom: 2px solid #00d4ff;
+  border-left: 2px solid #00d4ff;
+  opacity: 0.5;
+}
+
+.cornerBr {
+  position: absolute;
+  bottom: 0.75rem;
+  right: 0.75rem;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-bottom: 2px solid #0095ff;
+  border-right: 2px solid #0095ff;
+  opacity: 0.5;
+}
+
+@keyframes exerciseCardPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}

@@ -1,14 +1,7 @@
-import { useState } from 'react'
-import './App.css'
+import GymRoutinePage from './pages/GymRoutinePage.jsx'
 
 function App() {
-  
-
-  return (
-    <>
-      
-    </>
-  )
+  return <GymRoutinePage />
 }
 
 export default App

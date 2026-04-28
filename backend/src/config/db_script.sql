@@ -24,4 +24,4 @@ INSERT INTO muscle_groups (name) VALUES
 ('Abdominales');
 
 INSERT INTO exercises (name, image_url, description, muscle_group_id) VALUES
-('Press de banca', 'http://localhost:5173/images/press_banca.png', 'Ejercicio de pecho', 1);
+('Press de banca', 'http://localhost:5173/images/press_banca.png', 'Ejercicio compuesto fundamental para pectoral mayor, deltoides anterior y tríceps. Acostado en el banco, pies firmes en el suelo y escápulas retraídas; baja la barra con control hasta el pecho y empuja hacia arriba manteniendo muñecas rectas, core estable y contacto glúteo–espalda con el banco.', 1);
