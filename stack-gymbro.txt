@@ -1,0 +1,91 @@
+GymBro — Descripción del stack
+================================
+
+FRONTEND
+--------
+
+UI
+  - React 19 (react, react-dom)
+  - Rol: vista principal del catálogo de ejercicios (SPA)
+
+Build / desarrollo
+  - Vite 8 (@vitejs/plugin-react)
+  - Rol: servidor de desarrollo, build de producción y empaquetado
+
+Estilos
+  - Tailwind CSS 4 (tailwindcss, @tailwindcss/vite)
+  - Rol: utilidades y tema vía plugin de Vite
+
+Componentes
+  - Radix UI (p. ej. @radix-ui/react-select)
+  - Rol: controles accesibles (select, diálogos, estilo shadcn)
+
+Iconos
+  - Lucide React
+  - Rol: iconografía (p. ej. búsqueda)
+
+CSS por componente
+  - CSS Modules (p. ej. GymRoutinePage.module.css, exercise-card.module.css)
+  - Rol: layout y aspecto de la página y las cards
+
+Datos
+  - fetch + JSON
+  - Consumo del API PHP cuando hay backend
+  - Catálogo embebido opcional con variable de entorno VITE_STATIC_CATALOG
+
+Calidad
+  - ESLint 9 + plugins React
+  - Rol: lint del código
+
+Nota sobre package.json
+  - También hay dependencias pensadas para un kit amplio (MUI, Recharts,
+    react-router, etc.). La pantalla actual del catálogo se apoya sobre todo en:
+    React + Vite + Tailwind + Radix + Lucide + CSS Modules.
+
+Despliegue frontend
+  - Build estático (vite build) servido desde frontend/dist
+  - En Netlify el repositorio puede incluir netlify.toml (redirect SPA y
+    variables de build para el modo catálogo estático)
+
+
+BACKEND
+-------
+
+Runtime
+  - PHP (sin framework pesado)
+  - Punto de entrada: backend/index.php, enrutado manual por path
+
+Servidor local
+  - Apache (p. ej. XAMPP)
+  - Sirve el proyecto bajo una URL tipo /GymBro/backend/index.php
+
+API
+  - JSON sobre HTTP (Content-Type: application/json)
+  - Endpoints: GET /muscle-groups y GET /exercises con query params
+    (search, muscle_group_id, limit)
+
+Base de datos
+  - MySQL / MariaDB
+  - Tablas: muscle_groups y exercises (FK muscle_group_id)
+
+Acceso a BD
+  - mysqli (preparación de consultas, bind_param)
+  - Capa en ExerciseModel / MuscleGroupModel
+
+Contrato de API
+  - Documentado en backend/docs/api-contract-mvp.md
+  - Forma de respuestas y errores (400 / 500)
+
+Extras
+  - Cabeceras CORS en index.php para llamadas desde otro origen (p. ej. Vite en :5173)
+  - Script de referencia: backend/src/config/db_script.sql
+
+
+RESUMEN EN UNA FRASE
+--------------------
+
+Front: React 19 + Vite + Tailwind 4 + Radix + Lucide + CSS Modules,
+consumiendo una API REST JSON o un catálogo estático embebido para hosting sin PHP.
+
+Back: PHP procedural + mysqli + MySQL/MariaDB detrás de Apache,
+API JSON acotada al MVP de ejercicios y grupos musculares.
